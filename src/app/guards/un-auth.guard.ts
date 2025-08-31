@@ -12,11 +12,9 @@ export const unAuthGuard: CanActivateFn = (route, state) => {
   return store.select(selectIsLoggedIn).pipe(
     take(1),
     map((isLoggedIn) => {
-      console.log(isLoggedIn)
       if (!isLoggedIn) {
         return true;
       } else {
-        console.log(1);
         return router.createUrlTree(['/']);
       }
     })

@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {AuthState} from './auth.reducer';
 import {selectAuthState} from './auth.selectors';
+import PermissionModel from '../../models/auth/permission.model';
 
 @Injectable()
 export class AuthEffects {
@@ -20,12 +21,20 @@ export class AuthEffects {
       ofType(logInAction),
       exhaustMap((action) => {
         return this.http
-          .post<{ success: boolean; data: { token: string } }>(
+          .post<{ success: boolean; data: { token: string, id: number, name: string, email: string, permissions: PermissionModel[] } }>(
             `/auth/login`,
             { email: action.email, password: action.password }
           )
           .pipe(
-            map((response) => logInSuccessful({ token: response.data.token })),
+            map((response) => logInSuccessful({
+              token: response.data.token,
+              user: {
+                id: response.data.id,
+                name: response.data.name,
+                email: response.data.email,
+                permissions: response.data.permissions
+              }
+            })),
             catchError(() =>
               of(logInFailed({ errors: 'Please check your credentials and try again.' }))
             )

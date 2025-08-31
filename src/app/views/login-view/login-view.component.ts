@@ -3,9 +3,7 @@ import {environment} from '../../../environments/environment';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {AuthState} from '../../stores/auth-store/auth.reducer';
-import {VendorsState} from '../../stores/vendors-store/vendors.reducer';
 import {logInAction} from '../../stores/auth-store/auth.actions';
-import {selectAuthState} from '../../stores/auth-store/auth.selectors';
 
 @Component({
   selector: 'app-login-view',
@@ -53,9 +51,6 @@ export class LoginViewComponent {
 
     const enteredEmail = this.loginForm.value.email as string;
     const enteredPassword = this.loginForm.value.password as string;
-    this.store.select(selectAuthState).subscribe((state) => console.log(state));
     this.store.dispatch(logInAction({ email: enteredEmail, password: enteredPassword }));
-    this.store.select(selectAuthState).subscribe((state) => console.log(state));
-
   }
 }

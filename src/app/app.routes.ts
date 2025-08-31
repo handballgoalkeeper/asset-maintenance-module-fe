@@ -5,8 +5,8 @@ import {authGuard} from './guards/auth.guard';
 import {unAuthGuard} from './guards/un-auth.guard';
 
 export const routes: Routes = [
-  {path: '', redirectTo: '/vendors', pathMatch: 'full'},
-  {path: 'vendors', component: VendorsView, canActivate: [authGuard]},
-  {path: 'login', component: LoginView, canActivate: [unAuthGuard]},
+  {path: '', redirectTo: '/vendors', pathMatch: 'full', data: { name: 'Home' }},
+  {path: 'vendors', component: VendorsView, canActivate: [authGuard], data: { title: 'Vendors' }},
+  {path: 'login', component: LoginView, canActivate: [unAuthGuard], data: { title: 'Log in' }},
   { path: '**', redirectTo: '/vendors', pathMatch: 'full' }
 ];
